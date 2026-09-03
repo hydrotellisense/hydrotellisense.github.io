@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HydroTelliSense — Hydrology, Remote Sensing & Intelligent Decision-Making</title>
+<meta name="description" content="HydroTelliSense: a research group at NASA Goddard's Hydrological Sciences Laboratory combining satellite remote sensing, hydrologic modeling, and AI for disaster early warning.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-deep:#0B1B19;
+    --bg-deep-2:#12302C;
+    --surface:#F3F5EF;
+    --surface-alt:#E7EBE2;
+    --ink:#14201D;
+    --ink-soft:#4B5750;
+    --ink-on-dark:#EDEFE8;
+    --ink-on-dark-soft:#AEB8AF;
+    --amber:#C98A2E;
+    --teal:#1E6E71;
+    --violet:#6B4FA0;
+    --line:#C9D0C4;
+    --line-dark:rgba(255,255,255,0.14);
+    --serif:'IBM Plex Serif', Georgia, serif;
+    --sans:'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --max:1120px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important;}
+  }
+
+  body{
+    margin:0;
+    font-family:var(--sans);
+    color:var(--ink);
+    background:var(--surface);
+    line-height:1.6;
+    font-size:16px;
+  }
+
+  a{color:var(--teal);}
+  a:focus-visible, button:focus-visible{outline:2px solid var(--amber); outline-offset:3px;}
+
+  h1,h2,h3{font-family:var(--serif); font-weight:500; margin:0; color:inherit;}
+
+  .wrap{max-width:var(--max); margin:0 auto; padding:0 28px;}
+
+  /* ---------- NAV ---------- */
+  header.site{
+    position:sticky; top:0; z-index:50;
+    background:rgba(11,27,25,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line-dark);
+  }
+  .nav{display:flex; align-items:center; justify-content:space-between; padding:16px 28px; max-width:var(--max); margin:0 auto;}
+  .wordmark{font-family:var(--serif); font-size:1.15rem; color:var(--ink-on-dark); letter-spacing:0.01em; text-decoration:none;}
+  .wordmark span{color:var(--amber);}
+  .links{display:flex; gap:28px; list-style:none; margin:0; padding:0;}
+  .links a{color:var(--ink-on-dark-soft); text-decoration:none; font-size:0.95rem;}
+  .links a:hover{color:var(--ink-on-dark);}
+  .nav-toggle{display:none; background:none; border:1px solid var(--line-dark); color:var(--ink-on-dark); padding:6px 10px; font-size:0.9rem; cursor:pointer;}
+
+  @media (max-width:760px){
+    .links{position:absolute; top:100%; left:0; right:0; flex-direction:row; flex-wrap:nowrap; overflow-x:auto; -webkit-overflow-scrolling:touch; background:var(--bg-deep); padding:14px 28px; gap:24px; display:none; border-bottom:1px solid var(--line-dark);}
+    .links.open{display:flex;}
+    .links a{white-space:nowrap;}
+    .nav-toggle{display:inline-block;}
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    background:var(--bg-deep);
+    color:var(--ink-on-dark);
+    padding:96px 0 72px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero .wrap{position:relative; z-index:2; display:grid; grid-template-columns:1.1fr 0.9fr; gap:48px; align-items:center;}
+  @media (max-width:860px){ .hero .wrap{grid-template-columns:1fr;} }
+
+  .hero h1{font-size:clamp(2.3rem, 4.4vw, 3.6rem); line-height:1.08; max-width:11ch;}
+  .hero p.lede{font-size:1.15rem; color:var(--ink-on-dark-soft); max-width:46ch; margin-top:20px;}
+  .hero p.affil{font-size:0.92rem; color:var(--ink-on-dark-soft); margin-top:28px; border-left:2px solid var(--amber); padding-left:14px; max-width:40ch;}
+
+  .contour-wrap{width:100%; height:100%; min-height:260px;}
+  .contour-wrap svg{width:100%; height:auto; display:block;}
+  .contour-line{fill:none; stroke-width:1.4; stroke-linecap:round;}
+  .contour-line{stroke-dasharray:900; stroke-dashoffset:900; animation:draw 2.6s ease-out forwards;}
+  .contour-line:nth-child(2){animation-delay:0.15s;}
+  .contour-line:nth-child(3){animation-delay:0.3s;}
+  .contour-line:nth-child(4){animation-delay:0.45s;}
+  .contour-line:nth-child(5){animation-delay:0.6s;}
+  @keyframes draw{ to{ stroke-dashoffset:0; } }
+  @media (prefers-reduced-motion: reduce){
+    .contour-line{stroke-dashoffset:0; animation:none;}
+  }
+
+  /* ---------- SECTION SCAFFOLD ---------- */
+  section{padding:76px 0;}
+  section.alt{background:var(--surface-alt);}
+  section.dark{background:var(--bg-deep); color:var(--ink-on-dark);}
+  .section-head{max-width:60ch; margin-bottom:44px;}
+  .section-head h2{font-size:clamp(1.6rem, 2.6vw, 2.1rem);}
+  .section-head p{color:var(--ink-soft); margin-top:10px; font-size:1.02rem;}
+  section.dark .section-head p{color:var(--ink-on-dark-soft);}
+
+  /* ---------- ABOUT ---------- */
+  .about-grid{display:grid; grid-template-columns:1.4fr 1fr; gap:48px;}
+  @media (max-width:800px){ .about-grid{grid-template-columns:1fr;} }
+  .about-grid p{max-width:58ch; font-size:1.04rem;}
+  .focus-list{list-style:none; margin:0; padding:0; border-top:1px solid var(--line);}
+  .focus-list li{padding:16px 0; border-bottom:1px solid var(--line); display:flex; justify-content:space-between; gap:16px; font-size:0.98rem;}
+  .focus-list li b{font-family:var(--serif); font-weight:500;}
+
+  /* ---------- INNOVATION ---------- */
+  .innovation{display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:start;}
+  @media (max-width:620px){ .innovation{grid-template-columns:1fr;} }
+  .innovation .tag{display:inline-block; font-size:0.82rem; color:var(--amber); border:1px solid rgba(201,138,46,0.5); padding:4px 10px; border-radius:2px; margin-bottom:16px;}
+  .innovation h3{font-size:1.6rem; margin-bottom:14px; color:var(--ink-on-dark);}
+  .innovation p{color:var(--ink-on-dark-soft); font-size:1.02rem; max-width:52ch;}
+  .pipeline{width:100%; height:auto;}
+  .pipeline text{font-family:var(--sans); font-size:12.5px; fill:var(--ink-on-dark);}
+  .pipeline .node{fill:var(--bg-deep-2); stroke:var(--line-dark);}
+  .pipeline .arrow{stroke:var(--amber); stroke-width:1.6;}
+  .pipeline .label-sub{fill:var(--ink-on-dark-soft); font-size:10.5px;}
+
+  /* ---------- TEAM ---------- */
+  .team-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:32px;}
+  .person{border-top:2px solid var(--ink); padding-top:18px;}
+  .avatar{width:64px; height:64px; margin-bottom:16px;}
+  .person h3{font-size:1.08rem;}
+  .person .role{font-size:0.88rem; color:var(--teal); margin-top:2px; margin-bottom:10px;}
+  .person p.bio{font-size:0.92rem; color:var(--ink-soft); margin:0;}
+  .person.placeholder{opacity:0.55; border-top-color:var(--line);}
+  .person.placeholder .role{color:var(--ink-soft);}
+
+  /* ---------- PORTFOLIO ---------- */
+  .portfolio-grid{display:grid; grid-template-columns:repeat(6, 1fr); gap:24px;}
+  @media (max-width:800px){ .portfolio-grid{grid-template-columns:1fr;} }
+  .pf-card{grid-column:span 3; border:1px solid var(--line); padding:26px; background:var(--surface);}
+  .pf-card.large{grid-column:span 4;}
+  .pf-card.small{grid-column:span 2;}
+  @media (max-width:800px){ .pf-card, .pf-card.large, .pf-card.small{grid-column:span 1;} }
+  .pf-card .kicker{font-size:0.82rem; color:var(--amber); margin-bottom:10px;}
+  .pf-card h3{font-size:1.2rem; margin-bottom:10px;}
+  .pf-card p{font-size:0.96rem; color:var(--ink-soft); margin:0;}
+
+  /* ---------- PUBLICATIONS ---------- */
+  .pub-list{border-top:1px solid var(--line);}
+  .pub{display:grid; grid-template-columns:80px 1fr; gap:24px; padding:22px 0; border-bottom:1px solid var(--line);}
+  @media (max-width:600px){ .pub{grid-template-columns:1fr; gap:6px;} }
+  .pub .year{font-family:var(--serif); font-size:1.1rem; color:var(--ink-soft);}
+  .pub h3{font-size:1.08rem; font-weight:500; margin-bottom:6px;}
+  .pub .venue{font-size:0.92rem; color:var(--teal); margin-bottom:6px;}
+  .pub .authors{font-size:0.9rem; color:var(--ink-soft);}
+  .pub.placeholder{opacity:0.5;}
+
+  /* ---------- COLLABORATORS ---------- */
+  .collab-group{margin-bottom:36px;}
+  .collab-group h3{font-size:1rem; color:var(--ink-on-dark-soft); font-weight:400; margin-bottom:16px;}
+  .collab-row{display:flex; flex-wrap:wrap; gap:0;}
+  .collab-row span{font-family:var(--serif); font-size:1.05rem; padding:10px 22px 10px 0; margin-right:22px; border-right:1px solid var(--line-dark);}
+  .collab-row span:last-child{border-right:none;}
+
+  /* ---------- FOOTER ---------- */
+  footer{background:var(--bg-deep); color:var(--ink-on-dark-soft); padding:48px 0 32px; border-top:1px solid var(--line-dark);}
+  .footer-grid{display:flex; justify-content:space-between; flex-wrap:wrap; gap:24px; align-items:flex-end;}
+  footer .wordmark{margin-bottom:8px; display:inline-block;}
+  footer a{color:var(--ink-on-dark); text-decoration:none; border-bottom:1px solid var(--line-dark);}
+  footer .fine{font-size:0.85rem; margin-top:24px; color:var(--ink-on-dark-soft);}
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="nav">
+    <a href="#top" class="wordmark">Hydro<span>Telli</span>Sense</a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" id="navToggle">Menu</button>
+    <ul class="links" id="primary-nav">
+      <li><a href="#about">About</a></li>
+      <li><a href="#innovation">Latest work</a></li>
+      <li><a href="#team">Team</a></li>
+      <li><a href="#portfolio">Portfolio</a></li>
+      <li><a href="#publications">Publications</a></li>
+      <li><a href="#collaborators">Collaborators</a></li>
+      <li><a href="#news">News</a></li>
+      <li><a href="#join">Join us</a></li>
+      <li><a href="#funding">Funding</a></li>
+      <li><a href="#resources">Resources</a></li>
+    </ul>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <h1>Reading the water cycle from orbit.</h1>
+        <p class="lede">HydroTelliSense combines satellite remote sensing, physics-based hydrologic modeling, and machine intelligence to monitor, predict, and give early warning of hydroclimatic hazards — from landslides to floods.</p>
+        <p class="affil">A research group at NASA Goddard Space Flight Center's Hydrological Sciences Laboratory, with UMBC &amp; GESTAR&nbsp;II.</p>
+      </div>
+      <div class="contour-wrap" aria-hidden="true">
+        <svg viewBox="0 0 420 320" xmlns="http://www.w3.org/2000/svg">
+          <path class="contour-line" d="M10,240 C70,200 90,260 150,220 C210,180 240,240 300,210 C340,190 370,215 410,200" stroke="#C98A2E"/>
+          <path class="contour-line" d="M10,190 C60,150 100,205 160,175 C220,145 250,195 310,165 C350,145 380,170 410,155" stroke="#1E6E71"/>
+          <path class="contour-line" d="M10,140 C55,105 105,150 165,125 C225,100 255,145 315,120 C355,100 385,125 410,110" stroke="#6B4FA0"/>
+          <path class="contour-line" d="M10,90 C55,60 100,100 160,78 C220,55 255,95 315,72 C355,55 385,75 410,62" stroke="#EDEFE8" opacity="0.55"/>
+          <path class="contour-line" d="M10,280 C65,250 95,300 155,268 C215,235 245,285 305,258 C345,238 375,260 410,248" stroke="#C98A2E" opacity="0.5"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="wrap about-grid">
+      <div>
+        <div class="section-head">
+          <h2>What we work on</h2>
+        </div>
+        <p>We build tools that turn satellite observations into decisions — coupling land surface and hydrologic models with new data streams like SMAP and NISAR soil moisture, and applying deep learning to detect and forecast hazards before they escalate. Our work spans landslide early warning, flood forecasting, and the study of human-driven hydrological change in transboundary river basins including the Lower Mekong and the Ganges-Brahmaputra.</p>
+      </div>
+      <ul class="focus-list">
+        <li><span>Landslide hazard assessment</span><b>01</b></li>
+        <li><span>Flood forecasting</span><b>02</b></li>
+        <li><span>Transboundary basin change</span><b>03</b></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- LATEST INNOVATION -->
+  <section id="innovation" class="dark">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 style="color:var(--ink-on-dark)">Latest innovation</h2>
+      </div>
+      <div class="innovation">
+        <div>
+          <span class="tag">ROSES-2025 ECIP-ES proposal</span>
+          <h3>Coupling LIS–LHASA with SMAP &amp; NISAR soil moisture</h3>
+          <p>We're replacing LHASA's precipitation-based proxy for soil saturation with physically based, observationally constrained soil moisture — assimilating SMAP and NISAR retrievals into NASA's Land Information System via an Ensemble Kalman Filter, and adding 2D lateral groundwater flow. The goal: sharper landslide prediction over the Central and Southern Appalachians, evaluated against probability of detection, false alarm rate, and ROC-AUC.</p>
+        </div>
+        <svg class="pipeline" viewBox="0 0 460 220" xmlns="http://www.w3.org/2000/svg">
+          <!-- Column A: inputs -->
+          <rect class="node" x="10" y="15" width="190" height="46" rx="2"/>
+          <text x="105" y="35" text-anchor="middle">LIS land surface</text>
+          <text class="label-sub" x="105" y="50" text-anchor="middle">model</text>
+
+          <rect class="node" x="10" y="140" width="190" height="46" rx="2"/>
+          <text x="105" y="160" text-anchor="middle">SMAP + NISAR</text>
+          <text class="label-sub" x="105" y="175" text-anchor="middle">soil moisture</text>
+
+          <!-- Column B: processing / output -->
+          <rect class="node" x="260" y="15" width="190" height="46" rx="2"/>
+          <text x="355" y="35" text-anchor="middle">EnKF</text>
+          <text class="label-sub" x="355" y="50" text-anchor="middle">data assimilation</text>
+
+          <rect class="node" x="260" y="140" width="190" height="46" rx="2"/>
+          <text x="355" y="158" text-anchor="middle">LHASA + groundwater flow</text>
+          <text class="label-sub" x="355" y="173" text-anchor="middle">landslide hazard output</text>
+
+          <!-- Connections -->
+          <line class="arrow" x1="200" y1="38" x2="258" y2="38"/>
+          <line class="arrow" x1="200" y1="163" x2="258" y2="45"/>
+          <line class="arrow" x1="355" y1="61" x2="355" y2="138"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEAM -->
+  <section id="team">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Team</h2>
+        <p>A small group spanning hydrology, remote sensing, and machine learning.</p>
+      </div>
+      <div class="team-grid">
+
+        <div class="person">
+          <svg class="avatar" viewBox="0 0 64 64"><circle cx="32" cy="32" r="30" fill="#12302C"/><path d="M4,40 C16,30 22,44 32,36 C42,28 48,42 60,34" stroke="#C98A2E" stroke-width="2" fill="none"/><path d="M4,26 C16,16 22,30 32,22 C42,14 48,28 60,20" stroke="#1E6E71" stroke-width="2" fill="none"/></svg>
+          <h3>Nishan Biswas</h3>
+          <div class="role">Team Lead · Research Scientist</div>
+          <p class="bio">NASA Goddard Hydrological Sciences Laboratory, UMBC / GESTAR&nbsp;II. Works on landslide hazard assessment, flood forecasting, and transboundary hydrological change; mentors early-career and student researchers.</p>
+        </div>
+
+        <!-- TODO: duplicate this card per teammate — name, role, one-line bio -->
+        <div class="person placeholder">
+          <svg class="avatar" viewBox="0 0 64 64"><circle cx="32" cy="32" r="30" fill="#E7EBE2"/></svg>
+          <h3>[Name]</h3>
+          <div class="role">[Role]</div>
+          <p class="bio">[Bio]</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- PORTFOLIO -->
+  <section id="portfolio" class="alt">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Portfolio</h2>
+        <p>Prior and ongoing work across hazard types and regions.</p>
+      </div>
+      <div class="portfolio-grid">
+        <div class="pf-card large">
+          <div class="kicker">Landslides · Colombia</div>
+          <h3>Satellite-based landslide mapping, Cauca Valley</h3>
+          <p>Multi-temporal mapping using U-Net deep learning and NASA's Prithvi geospatial foundation model, benchmarked against the SALaD (Semi-Automatic Landslide Detection) OBIA/Random Forest system, with temporal compositing to handle cloud cover.</p>
+        </div>
+        <div class="pf-card small">
+          <div class="kicker">Landslides · Appalachians</div>
+          <h3>Landslide hazard assessment</h3>
+          <p>Advanced hydrologic modeling coupling LIS and LHASA with soil moisture data assimilation.</p>
+        </div>
+        <div class="pf-card small">
+          <div class="kicker">Floods · Lower Mekong</div>
+          <h3>Transboundary flood forecasting</h3>
+          <p>Studying human-driven hydrological change and flood dynamics across the Lower Mekong basin.</p>
+        </div>
+        <div class="pf-card large">
+          <div class="kicker">Hydrology · Ganges-Brahmaputra &amp; Latin America</div>
+          <h3>Human-driven hydrological change in transboundary basins</h3>
+          <p>Investigating how upstream infrastructure and land-use change reshape downstream water availability and risk across major transboundary river systems.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PUBLICATIONS -->
+  <section id="publications">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Publications</h2>
+        <p>Peer-reviewed papers, proposals, and conference contributions.</p>
+      </div>
+      <div class="pub-list">
+        <div class="pub">
+          <div class="year">2026</div>
+          <div>
+            <h3>Multi-temporal satellite-based landslide mapping in Colombia's Cauca Valley</h3>
+            <div class="venue">7th World Landslide Forum, Session 4.8 — extended abstract</div>
+            <div class="authors">N. Biswas, P. Amatya, T. A. Stanley, C. Chiesa, D. Morath</div>
+          </div>
+        </div>
+        <div class="pub">
+          <div class="year">2025</div>
+          <div>
+            <h3>Improving Landslide Hazard Assessment with Advanced Hydrologic Modeling</h3>
+            <div class="venue">NASA ROSES-2025 A.11 — Early Career Investigator Program proposal</div>
+            <div class="authors">N. Biswas (PI)</div>
+          </div>
+        </div>
+        <!-- TODO: duplicate this .pub block per additional publication -->
+        <div class="pub placeholder">
+          <div class="year">[Year]</div>
+          <div>
+            <h3>[Title]</h3>
+            <div class="venue">[Venue / status]</div>
+            <div class="authors">[Authors]</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COLLABORATORS -->
+  <section id="collaborators" class="dark">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 style="color:var(--ink-on-dark)">Collaborators</h2>
+      </div>
+      <div class="collab-group">
+        <h3>Institutions</h3>
+        <div class="collab-row">
+          <span>NASA Goddard Hydrological Sciences Laboratory</span>
+          <span>UMBC</span>
+          <span>GESTAR II</span>
+          <span>SERVIR-Mekong</span>
+          <span>Asian Disaster Preparedness Center</span>
+          <span>Pacific Disaster Center</span>
+        </div>
+      </div>
+      <div class="collab-group">
+        <h3>Researchers</h3>
+        <div class="collab-row">
+          <span>Pukar Amatya</span>
+          <span>Thomas A. Stanley</span>
+          <span>Chris Chiesa</span>
+          <span>Daniel Morath</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEWS & UPDATES — suggested addition, placeholder content -->
+  <section id="news" class="alt">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>News</h2>
+        <p>Short, dated updates — talks, awards, new papers, field campaigns.</p>
+      </div>
+      <div class="pub-list">
+        <div class="pub placeholder">
+          <div class="year">[Mon YYYY]</div>
+          <div>
+            <h3>[Headline — e.g. "Paper accepted at ..."]</h3>
+            <div class="authors">[One-sentence detail]</div>
+          </div>
+        </div>
+        <div class="pub placeholder">
+          <div class="year">[Mon YYYY]</div>
+          <div>
+            <h3>[Headline]</h3>
+            <div class="authors">[One-sentence detail]</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- JOIN US — suggested addition, placeholder content -->
+  <section id="join">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Join us</h2>
+        <p>Openings for students, interns, and collaborators.</p>
+      </div>
+      <div class="portfolio-grid">
+        <div class="pf-card large">
+          <div class="kicker">[Opportunity type — e.g. Summer intern]</div>
+          <h3>[Position title]</h3>
+          <p>[What the person would work on, requirements, how to apply — or a line inviting students to reach out directly.]</p>
+        </div>
+        <div class="pf-card small">
+          <div class="kicker">[Opportunity type]</div>
+          <h3>[Position title]</h3>
+          <p>[Short description.]</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FUNDING & GRANTS — suggested addition, placeholder content -->
+  <section id="funding" class="alt">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Funding</h2>
+        <p>Grants and awards that support this work.</p>
+      </div>
+      <div class="collab-group">
+        <div class="collab-row">
+          <span>[Funder / program, e.g. NASA ROSES]</span>
+          <span>[Funder / program]</span>
+          <span>[Funder / program]</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESOURCES — suggested addition, placeholder content -->
+  <section id="resources">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Resources</h2>
+        <p>Code, datasets, and tools this group has released.</p>
+      </div>
+      <div class="portfolio-grid">
+        <div class="pf-card">
+          <div class="kicker">[Code]</div>
+          <h3>[Repository name]</h3>
+          <p>[What it does — link to GitHub.]</p>
+        </div>
+        <div class="pf-card">
+          <div class="kicker">[Dataset]</div>
+          <h3>[Dataset name]</h3>
+          <p>[What it contains, where it's hosted.]</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <a href="#top" class="wordmark">HydroTelliSense</a>
+        <div>Hydrology · Remote sensing · Intelligent decision-making</div>
+      </div>
+      <div>
+        <a href="mailto:n.biswas@nasa.gov">n.biswas@nasa.gov</a>
+      </div>
+    </div>
+    <div class="fine">© <span id="year"></span> HydroTelliSense. Built and maintained on GitHub Pages.</div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+  const toggle = document.getElementById('navToggle');
+  const nav = document.getElementById('primary-nav');
+  toggle.addEventListener('click', () => {
+    const open = nav.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', open);
+  });
+  nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    nav.classList.remove('open');
+    toggle.setAttribute('aria-expanded', false);
+  }));
+</script>
+
+</body>
+</html>
