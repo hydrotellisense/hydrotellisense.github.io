@@ -1,0 +1,1 @@
+Upload index.html and the images/screenshots folder together. The two new cards are in the Latest innovation section below the existing LIS–LHASA proposal. Each screenshot and title links to its tool. Edit the marked Interactive tools block in index.html to update the descriptions.
