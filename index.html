@@ -174,6 +174,20 @@
   footer .wordmark{margin-bottom:8px; display:inline-block;}
   footer a{color:var(--ink-on-dark); text-decoration:none; border-bottom:1px solid var(--line-dark);}
   footer .fine{font-size:0.85rem; margin-top:24px; color:var(--ink-on-dark-soft);}
+
+  /* Linked screenshot previews for the latest interactive tools. */
+  .innovation-tools{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:32px;margin-top:48px;padding-top:40px;border-top:1px solid var(--line-dark);}
+  .innovation-tool{min-width:0;overflow:hidden;background:var(--bg-deep-2);border:1px solid var(--line-dark);border-radius:8px;}
+  .innovation-screenshot{display:block;border-bottom:1px solid var(--line-dark);background:#edf2ef;}
+  .innovation-screenshot img{display:block;width:100%;height:auto;aspect-ratio:1.45;object-fit:contain;}
+  .innovation-tool-copy{padding:26px;}
+  .innovation-tool .tag{display:inline-block;font-size:.78rem;color:var(--amber);border:1px solid rgba(201,138,46,.5);padding:4px 10px;margin-bottom:14px;}
+  .innovation-tool h3{font-size:1.3rem;line-height:1.4;margin-bottom:14px;color:var(--ink-on-dark);}
+  .innovation-tool h3 a{color:inherit;text-decoration:none;}
+  .innovation-tool p{color:var(--ink-on-dark-soft);font-size:1.02rem;line-height:1.7;}
+  .innovation-tool .innovation-tool-link{display:inline-block;margin-top:18px;color:var(--ink-on-dark);text-decoration:underline;text-underline-offset:4px;}
+  .innovation-tool a:focus-visible{outline:3px solid var(--amber);outline-offset:4px;}
+  @media(max-width:700px){.innovation-tools{grid-template-columns:1fr;}.innovation-tool-copy{padding:22px;}}
 </style>
 </head>
 <body>
@@ -304,6 +318,18 @@
           <line class="arrow" x1="355" y1="61" x2="355" y2="138"/>
         </svg>
       </div>
+
+      <!-- Interactive tools: edit each card title, description, screenshot, and link here. -->
+      <div class="innovation-tools">
+        <article class="innovation-tool">
+          <a class="innovation-screenshot" href="https://smita27du.github.io/bdswotvisualizer/" aria-label="Open Bangladesh SWOT Visualizer"><img src="images/screenshots/bdswot.jpg" alt="Bangladesh SWOT Visualizer website screenshot" loading="lazy" width="1363" height="936"></a>
+          <div class="innovation-tool-copy"><span class="tag">Satellite water monitoring</span><h3><a href="https://smita27du.github.io/bdswotvisualizer/">Bangladesh SWOT Visualizer</a></h3><p>A web-based water monitoring dashboard for Bangladesh using observations from the Surface Water and Ocean Topography (SWOT) satellite mission. Explore satellite-based water information through an interactive map.</p><a class="innovation-tool-link" href="https://smita27du.github.io/bdswotvisualizer/">Explore the tool <span aria-hidden="true">→</span></a></div>
+        </article>
+        <article class="innovation-tool">
+          <a class="innovation-screenshot" href="https://hydrotellisense.github.io/riqsa/" aria-label="Open RIQSA — Reservoir Impact Quantification in South Asia"><img src="images/screenshots/riqsa.jpg" alt="RIQSA — Reservoir Impact Quantification in South Asia website screenshot" loading="lazy" width="1363" height="936"></a>
+          <div class="innovation-tool-copy"><span class="tag">Reservoirs & downstream impacts</span><h3><a href="https://hydrotellisense.github.io/riqsa/">RIQSA — Reservoir Impact Quantification in South Asia</a></h3><p>An interactive atlas for exploring reservoir storage, catchments, upstream drainage, and downstream river connections across major South and Southeast Asian basins. Trace how upstream reservoir storage changes influence downstream water availability across seasons.</p><a class="innovation-tool-link" href="https://hydrotellisense.github.io/riqsa/">Explore the tool <span aria-hidden="true">→</span></a></div>
+        </article>
+      </div>
     </div>
   </section>
 
@@ -432,7 +458,7 @@
           <div>
             <h3>Bracing for impact: how shifting precipitation extremes may influence physical climate risks in an uncertain future.</h3>
             <div class="venue">Scientific Reports, 14(1), 17398</div>
-            <div class="authors">Rahat, S. H., Saki, S., Khaira, U., Biswas, N. K., Dollan, I. J., Wasti, A., ... & Ray, P. </div>
+            <div class="authors">Rahat, S. H., Saki, S., Khaira, U., Biswas, N. K., Dollan, I. J., ... & Ray, P. </div>
             <div class="authors"><a href="https://doi.org/10.1038/s41598-024-65618-9">https://doi.org/10.1038/s41598-024-65618-9</a></div>
           </div>
         </div> 
